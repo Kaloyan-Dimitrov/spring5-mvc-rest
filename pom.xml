@@ -63,8 +63,19 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.8.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -108,7 +119,7 @@
                     </annotationProcessorPaths>
                     <compilerArgs>
                         <compilerArg>
-                               -Amapstruct.defaultComponentModel=spring
+                                -Amapstruct.defaultComponentModel=spring
                         </compilerArg>
                     </compilerArgs>
                 </configuration>
