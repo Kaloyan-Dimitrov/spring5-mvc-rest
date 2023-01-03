@@ -7,12 +7,9 @@ import guru.springfamework.repositories.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.exceptions.base.MockitoException;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +41,7 @@ class CustomerServiceTest {
         assertEquals(customer.getFirstName(), returnedCustomer.getFirstName());
         assertEquals(customer.getLastName(), returnedCustomer.getLastName());
         assertEquals(customer.getId(), returnedCustomer.getId());
+        assertEquals("/api/v1/customers/" + ID, returnedCustomer.getCustomerUrl());
     }
 
     @Test
