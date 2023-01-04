@@ -18,6 +18,6 @@ public interface CustomerMapper {
         Customer customerDTOToCustomer(CustomerDTO customerDTO);
         @AfterMapping
         default void createCustomerUrl(Customer order, @MappingTarget CustomerDTO dto) {
-                dto.setCustomerUrl(CustomerController.BASE_URL + order.getId());
+                dto.setCustomerUrl(CustomerController.BASE_URL + '/' + order.getId());
         }
 }
