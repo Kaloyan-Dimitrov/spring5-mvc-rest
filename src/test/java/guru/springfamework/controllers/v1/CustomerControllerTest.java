@@ -16,6 +16,8 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -23,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class CustomerControllerTest extends AbstractRestControllerTest {
     private static final Long ID = 3L;
-    public static final String CUSTOMER_URL = "/api/v1/customers/" + ID;
+    public static final String CUSTOMER_URL = CustomerController.BASE_URL + "/" + ID;
     @Mock
     private CustomerService customerService;
 
@@ -46,7 +48,7 @@ class CustomerControllerTest extends AbstractRestControllerTest {
         customerDTOS.add(new CustomerDTO());
         when(customerService.getAllCustomers()).thenReturn(customerDTOS);
 
-        mockMvc.perform(get("/api/v1/customers/"))
+        mockMvc.perform(get(CustomerController.BASE_URL + "/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customers", hasSize(2)));
     }
@@ -80,7 +82,7 @@ class CustomerControllerTest extends AbstractRestControllerTest {
         when(customerService.createNewCustomer(customerDTO)).thenReturn(returnDTO);
 
         System.out.println("CustomerDTO: " + customerDTO);
-        mockMvc.perform(post("/api/v1/customers/")
+        mockMvc.perform(post(CustomerController.BASE_URL + "/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(customerDTO)))
                 .andExpect(status().isCreated())
@@ -135,5 +137,14 @@ class CustomerControllerTest extends AbstractRestControllerTest {
                 .andExpect(jsonPath("$.lastName", equalTo("Flintstone")))
                 .andExpect(jsonPath("$.customerUrl", equalTo(CUSTOMER_URL)));
 
+    }
+
+    @Test
+    public void testDeleteCustomer() throws Exception {
+        mockMvc.perform(delete(CUSTOMER_URL)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(customerService).deleteCustomerById(anyLong());
     }
 }

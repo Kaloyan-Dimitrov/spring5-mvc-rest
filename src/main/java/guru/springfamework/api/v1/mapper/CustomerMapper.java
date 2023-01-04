@@ -1,6 +1,7 @@
 package guru.springfamework.api.v1.mapper;
 
 import guru.springfamework.api.v1.model.CustomerDTO;
+import guru.springfamework.controllers.v1.CustomerController;
 import guru.springfamework.domain.Customer;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
@@ -17,6 +18,6 @@ public interface CustomerMapper {
         Customer customerDTOToCustomer(CustomerDTO customerDTO);
         @AfterMapping
         default void createCustomerUrl(Customer order, @MappingTarget CustomerDTO dto) {
-                dto.setCustomerUrl("/api/v1/customers/" + order.getId());
+                dto.setCustomerUrl(CustomerController.BASE_URL + order.getId());
         }
 }
