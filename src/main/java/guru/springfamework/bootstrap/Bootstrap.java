@@ -2,8 +2,10 @@ package guru.springfamework.bootstrap;
 
 import guru.springfamework.domain.Category;
 import guru.springfamework.domain.Customer;
+import guru.springfamework.domain.Vendor;
 import guru.springfamework.repositories.CategoryRepository;
 import guru.springfamework.repositories.CustomerRepository;
+import guru.springfamework.repositories.VendorRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,65 +15,33 @@ import org.springframework.stereotype.Component;
 @Component
 public class Bootstrap implements CommandLineRunner{
 
-    private final CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRespository;
     private final CustomerRepository customerRepository;
+    private final VendorRepository vendorRepository;
 
-    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
-        this.categoryRepository = categoryRepository;
+    public Bootstrap(CategoryRepository categoryRespository, CustomerRepository customerRepository, VendorRepository vendorRepository) {
+        this.categoryRespository = categoryRespository;
         this.customerRepository = customerRepository;
+        this.vendorRepository = vendorRepository;
     }
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws Exception {
+
         loadCategories();
-        System.out.println("Category Data Loaded = " + categoryRepository.count());
         loadCustomers();
-        System.out.println("Customer Data Loaded = " + customerRepository.count());
+        loadVendors();
     }
 
-    private void loadCustomers() {
-        Customer customer1 = new Customer();
-        customer1.setId(1L);
-        customer1.setFirstName("Michael");
-        customer1.setLastName("Weston");
+    private void loadVendors() {
+        Vendor vendor1 = new Vendor();
+        vendor1.setName("Vendor 1");
+        vendorRepository.save(vendor1);
 
-        Customer customer2 = new Customer();
-        customer2.setId(2L);
-        customer2.setFirstName("Sam");
-        customer2.setLastName("Axe");
+        Vendor vendor2 = new Vendor();
+        vendor2.setName("Vendor 2");
+        vendorRepository.save(vendor2);
 
-        Customer customer3 = new Customer();
-        customer3.setId(3L);
-        customer3.setFirstName("Fiona");
-        customer3.setLastName("Glenanne");
-
-        Customer customer4 = new Customer();
-        customer4.setId(4L);
-        customer4.setFirstName("Alex");
-        customer4.setLastName("Guiness");
-
-        Customer customer5 = new Customer();
-        customer5.setId(5L);
-        customer5.setFirstName("Sam");
-        customer5.setLastName("Axe");
-
-        Customer customer6 = new Customer();
-        customer6.setId(6L);
-        customer6.setFirstName("Bill");
-        customer6.setLastName("Nershi");
-
-        Customer customer7 = new Customer();
-        customer7.setId(7L);
-        customer7.setFirstName("Jimmy");
-        customer7.setLastName("Buffet");
-
-        customerRepository.save(customer1);
-        customerRepository.save(customer2);
-        customerRepository.save(customer3);
-        customerRepository.save(customer4);
-        customerRepository.save(customer5);
-        customerRepository.save(customer6);
-        customerRepository.save(customer7);
     }
 
     private void loadCategories() {
@@ -90,10 +60,30 @@ public class Bootstrap implements CommandLineRunner{
         Category nuts = new Category();
         nuts.setName("Nuts");
 
-        categoryRepository.save(fruits);
-        categoryRepository.save(dried);
-        categoryRepository.save(fresh);
-        categoryRepository.save(exotic);
-        categoryRepository.save(nuts);
+        categoryRespository.save(fruits);
+        categoryRespository.save(dried);
+        categoryRespository.save(fresh);
+        categoryRespository.save(exotic);
+        categoryRespository.save(nuts);
+
+        System.out.println("Categories Loaded: " + categoryRespository.count());
+    }
+
+    private void loadCustomers() {
+        //given
+        Customer customer1 = new Customer();
+        customer1.setId(1l);
+        customer1.setFirstname("Michale");
+        customer1.setLastname("Weston");
+        customerRepository.save(customer1);
+
+        Customer customer2 = new Customer();
+        customer2.setId(2l);
+        customer2.setFirstname("Sam");
+        customer2.setLastname("Axe");
+
+        customerRepository.save(customer2);
+
+        System.out.println("Customers Loaded: " + customerRepository.count());
     }
 }
